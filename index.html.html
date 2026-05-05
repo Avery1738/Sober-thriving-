@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sober & Thriving — Recovery Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:      #3D6B52;
+    --sage-mid:  #5A8A6A;
+    --sage-soft: #A8CCBA;
+    --sage-pale: #E4F2EA;
+    --sage-bg:   #F0F7F3;
+    --terra:     #B85C3A;
+    --terra-mid: #D4784F;
+    --terra-pale:#FDF0EA;
+    --terra-soft:#F5D0BC;
+    --gold:      #9A7A2E;
+    --gold-mid:  #C4A44A;
+    --gold-pale: #FAF5DC;
+    --gold-soft: #ECD890;
+    --cream:     #FFFDF8;
+    --warm:      #FAF7F0;
+    --parch:     #F5F0E8;
+    --line:      #D8D2C6;
+    --line-soft: #E8E2D6;
+    --mid:       #8A8278;
+    --dark:      #2A241C;
+    --white:     #FFFFFF;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body:    'DM Sans', sans-serif;
+    --radius:    16px;
+    --shadow:    0 4px 24px rgba(42,36,28,0.08);
+    --shadow-sm: 0 2px 8px rgba(42,36,28,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--warm);
+    color: var(--dark);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── GRAIN OVERLAY ─────────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ────────────────────────────────────────────────── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 60px;
+    background: rgba(250,247,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center;
+    padding: 0 24px;
+    z-index: 100;
+    gap: 8px;
+  }
+  .nav-brand {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--sage);
+    flex: 1;
+  }
+  .nav-brand span { color: var(--terra-mid); font-style: italic; }
+  .nav-tabs {
+    display: flex; gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    background: transparent;
+    color: var(--mid);
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { background: var(--sage-pale); color: var(--sage); }
+  .nav-tab.active {
+    background: var(--sage);
+    color: white;
+  }
+
+  /* ── MAIN LAYOUT ────────────────────────────────────────── */
+  .main {
+    padding-top: 60px;
+    max-width: 680px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+  }
+
+  /* ── SECTIONS ───────────────────────────────────────────── */
+  .section {
+    display: none;
+    padding: 32px 20px 0;
+    animation: fadeUp 0.35s ease forwards;
+  }
+  .section.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── PAGE HEADER ────────────────────────────────────────── */
+  .page-header {
+    margin-bottom: 28px;
+  }
+  .page-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage-soft);
+    margin-bottom: 6px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--dark);
+    line-height: 1.2;
+  }
+  .page-title span { color: var(--terra-mid); font-style: italic; }
+  .page-sub {
+    margin-top: 8px;
+    color: var(--mid);
+    font-size: 14px;
+  }
+
+  /* ── CARDS ──────────────────────────────────────────────── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 1px solid var(--line-soft);
+    box-shadow: var(--shadow-sm);
+  }
+  .card-accent-sage { border-left: 4px solid var(--sage-mid); }
+  .card-accent-terra { border-left: 4px solid var(--terra-mid); }
+  .card-accent-gold  { border-left: 4px solid var(--gold-mid); }
+
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+  }
+  .card-icon {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .icon-sage  { background: var(--sage-pale); }
+  .icon-terra { background: var(--terra-pale); }
+  .icon-gold  { background: var(--gold-pale); }
+  .card-title {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--dark);
+  }
+  .card-hint {
+    font-size: 12px;
+    color: var(--mid);
+    margin-top: 1px;
+  }
+
+  /* ── FORM ELEMENTS ──────────────────────────────────────── */
+  textarea, input[type="text"], input[type="date"], input[type="number"] {
+    width: 100%;
+    background: var(--warm);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--dark);
+    resize: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  textarea:focus, input:focus {
+    border-color: var(--sage-mid);
+    box-shadow: 0 0 0 3px rgba(90,138,106,0.12);
+    background: var(--white);
+  }
+  textarea { min-height: 80px; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .form-group { margin-bottom: 14px; }
+
+  /* ── MOOD SELECTOR ──────────────────────────────────────── */
+  .mood-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .mood-btn {
+    flex: 1; min-width: 52px;
+    background: var(--warm);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .mood-btn .mood-label {
+    display: block;
+    font-size: 10px;
+    color: var(--mid);
+    margin-top: 4px;
+    font-family: var(--font-body);
+  }
+  .mood-btn.selected {
+    border-color: var(--sage-mid);
+    background: var(--sage-pale);
+    transform: scale(1.05);
+  }
+  .mood-btn:hover { border-color: var(--sage-soft); }
+
+  /* ── URGE METER ─────────────────────────────────────────── */
+  .urge-row {
+    display: flex; gap: 8px;
+  }
+  .urge-btn {
+    flex: 1;
+    background: var(--warm);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mid);
+  }
+  .urge-btn:hover { border-color: var(--terra-soft); }
+  .urge-btn.selected {
+    background: var(--terra-pale);
+    border-color: var(--terra-mid);
+    color: var(--terra);
+    font-weight: 600;
+  }
+  .urge-warn {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--terra-pale);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--terra);
+    display: none;
+  }
+  .urge-warn.show { display: block; }
+  .urge-warn a {
+    color: var(--terra);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* ── CHECKLIST ──────────────────────────────────────────── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    font-size: 12px;
+  }
+  .checklist li.checked .check-box {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: white;
+  }
+  .checklist li.checked span { text-decoration: line-through; color: var(--mid); }
+  .checklist span { font-size: 14px; }
+
+  /* ── GRATITUDE INPUTS ───────────────────────────────────── */
+  .gratitude-item {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .gratitude-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--gold-pale);
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── BUTTONS ────────────────────────────────────────────── */
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--sage);
+    color: white;
+    box-shadow: 0 2px 8px rgba(61,107,82,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--sage-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(61,107,82,0.3);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ghost {
+    background: transparent;
+    border: 1.5px solid var(--line);
+    color: var(--mid);
+  }
+  .btn-ghost:hover { border-color: var(--sage-soft); color: var(--sage); }
+  .btn-terra {
+    background: var(--terra);
+    color: white;
+  }
+  .btn-terra:hover { background: var(--terra-mid); }
+  .btn-full { width: 100%; }
+
+  /* ── SAVE INDICATOR ─────────────────────────────────────── */
+  .save-bar {
+    position: fixed;
+    bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--dark);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .save-bar.show { opacity: 1; }
+
+  /* ── HOME ───────────────────────────────────────────────── */
+  .hero {
+    background: var(--sage);
+    border-radius: 20px;
+    padding: 32px 24px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🌿';
+    position: absolute;
+    right: 20px; top: 20px;
+    font-size: 48px;
+    opacity: 0.3;
+  }
+  .hero-day {
+    font-size: 52px;
+    font-family: var(--font-display);
+    color: white;
+    line-height: 1;
+  }
+  .hero-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .hero-quote {
+    margin-top: 20px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 16px;
+  }
+
+  .quick-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .quick-card {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .quick-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--sage-soft);
+  }
+  .quick-card-icon { font-size: 24px; margin-bottom: 8px; }
+  .quick-card-title { font-weight: 500; font-size: 14px; }
+  .quick-card-sub { font-size: 12px; color: var(--mid); margin-top: 2px; }
+
+  /* ── MILESTONE GRID ─────────────────────────────────────── */
+  .milestone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .milestone-item {
+    background: var(--white);
+    border: 1.5px solid var(--line-soft);
+    border-radius: 14px;
+    padding: 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .milestone-item.reached {
+    border-color: var(--sage);
+    background: var(--sage-pale);
+  }
+  .milestone-item:hover { border-color: var(--sage-soft); }
+  .milestone-check {
+    width: 28px; height: 28px;
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .milestone-item.reached .milestone-check {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: white;
+  }
+  .milestone-label { font-weight: 600; font-size: 13px; }
+  .milestone-msg { font-size: 10px; color: var(--mid); margin-top: 3px; line-height: 1.3; }
+
+  /* ── CALENDAR ───────────────────────────────────────────── */
+  .cal-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .cal-day-name {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 6px 0;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .cal-day {
+    aspect-ratio: 1;
+    border: 1.5px solid var(--line-soft);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--white);
+    font-weight: 500;
+    color: var(--dark);
+  }
+  .cal-day:hover { border-color: var(--sage-soft); }
+  .cal-day.sober {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: white;
+  }
+  .cal-day.empty { border-color: transparent; cursor: default; background: transparent; }
+
+  /* ── URGE TOOLKIT ───────────────────────────────────────── */
+  .crisis-banner {
+    background: var(--terra);
+    color: white;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .crisis-banner h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .crisis-banner p { font-size: 14px; opacity: 0.9; }
+
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+    display: flex; gap: 14px; align-items: flex-start;
+    box-shadow: var(--shadow-sm);
+  }
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    color: white;
+  }
+  .step-num.terra { background: var(--terra); }
+  .step-num.sage  { background: var(--sage); }
+  .step-num.gold  { background: var(--gold-mid); }
+  .step-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .step-desc  { font-size: 13px; color: var(--mid); line-height: 1.5; }
+
+  .breathe-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--sage-pale);
+    border: 2px solid var(--sage-soft);
+    border-radius: 14px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--sage);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    margin: 4px 0 12px;
+  }
+  .breathe-btn:hover { background: var(--sage-bg); }
+  .breathe-active { animation: breathePulse 8s infinite; }
+  @keyframes breathePulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    25%      { transform: scale(1.04); opacity: 0.9; }
+    50%      { transform: scale(1.04); opacity: 0.9; }
+    75%      { transform: scale(1); opacity: 1; }
+  }
+
+  /* ── PROMPTS ────────────────────────────────────────────── */
+  .prompt-section-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--dark);
+    margin: 20px 0 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .prompt-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line-soft);
+  }
+  .prompt-card {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .prompt-card:hover { border-color: var(--sage-soft); background: var(--sage-bg); }
+  .prompt-num { font-size: 11px; color: var(--sage-soft); font-weight: 600; margin-bottom: 4px; }
+  .prompt-text { font-size: 14px; color: var(--dark); line-height: 1.5; }
+  .prompt-expanded { display: none; margin-top: 12px; }
+  .prompt-card.open .prompt-expanded { display: block; }
+
+  /* ── AFFIRMATIONS ───────────────────────────────────────── */
+  .affirmation-card {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .affirmation-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .affirmation-card.favourited { border-color: var(--gold-mid); background: var(--gold-pale); }
+  .affirmation-text {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--dark);
+    line-height: 1.6;
+  }
+  .heart-btn {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none; border: none;
+    font-size: 16px; cursor: pointer;
+    opacity: 0.4; transition: opacity 0.2s, transform 0.2s;
+  }
+  .heart-btn:hover { opacity: 1; transform: scale(1.2); }
+  .affirmation-card.favourited .heart-btn { opacity: 1; }
+
+  /* ── COPING MENU ────────────────────────────────────────── */
+  .coping-section {
+    margin-bottom: 16px;
+  }
+  .coping-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .coping-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-terra { background: var(--terra-pale); color: var(--terra); }
+  .badge-sage  { background: var(--sage-pale);  color: var(--sage);  }
+  .badge-gold  { background: var(--gold-pale);  color: var(--gold);  }
+
+  /* ── ENTRIES LIST ───────────────────────────────────────── */
+  .entry-item {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .entry-item:hover { border-color: var(--sage-soft); }
+  .entry-date { font-size: 12px; color: var(--mid); }
+  .entry-preview { font-size: 13px; color: var(--dark); flex: 1; }
+  .entry-mood { font-size: 18px; }
+
+  /* ── DIVIDER ────────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: var(--line-soft);
+    margin: 20px 0;
+  }
+
+  /* ── BADGE PILL ─────────────────────────────────────────── */
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .pill-sage { background: var(--sage-pale); color: var(--sage); }
+  .pill-terra { background: var(--terra-pale); color: var(--terra); }
+  .pill-gold  { background: var(--gold-pale); color: var(--gold); }
+
+  /* ── INFO BOX ───────────────────────────────────────────── */
+  .info-box {
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .info-sage  { background: var(--sage-pale);  color: var(--sage);  border-left: 3px solid var(--sage-mid); }
+  .info-terra { background: var(--terra-pale); color: var(--terra); border-left: 3px solid var(--terra-mid); }
+  .info-gold  { background: var(--gold-pale);  color: var(--gold);  border-left: 3px solid var(--gold-mid); }
+
+  /* ── FOUNDATION SECTION ─────────────────────────────────── */
+  .trigger-list { list-style: none; }
+  .trigger-item {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .trigger-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--terra-soft);
+    flex-shrink: 0;
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+    .quick-nav { grid-template-columns: 1fr 1fr; }
+    .milestone-grid { grid-template-columns: 1fr 1fr; }
+    .nav-tabs { gap: 2px; }
+    .nav-tab { padding: 5px 10px; font-size: 12px; }
+    .page-title { font-size: 26px; }
+    .hero-day { font-size: 44px; }
+  }
+
+  /* ── PRINT STYLES ───────────────────────────────────────── */
+  @media print {
+    .nav, .save-bar { display: none; }
+    .section { display: block !important; page-break-after: always; }
+    body { padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">Sober <span>& Thriving</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('home')">Home</button>
+    <button class="nav-tab" onclick="showSection('daily')">Daily</button>
+    <button class="nav-tab" onclick="showSection('weekly')">Weekly</button>
+    <button class="nav-tab" onclick="showSection('calendar')">Calendar</button>
+    <button class="nav-tab" onclick="showSection('milestones')">Milestones</button>
+    <button class="nav-tab" onclick="showSection('urge')">Urge Help</button>
+    <button class="nav-tab" onclick="showSection('coping')">Coping</button>
+    <button class="nav-tab" onclick="showSection('prompts')">Prompts</button>
+    <button class="nav-tab" onclick="showSection('affirmations')">Affirmations</button>
+    <button class="nav-tab" onclick="showSection('foundation')">Foundation</button>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════════════════
+     HOME
+════════════════════════════════════════════════════════════ -->
+<div class="section active" id="section-home">
+  <div class="hero">
+    <div class="hero-day" id="day-count">Day 1</div>
+    <div class="hero-label">of your sobriety journey</div>
+    <div class="hero-quote" id="daily-quote">"You are not starting over. You are starting from exactly where you are."</div>
+  </div>
+
+  <div class="quick-nav">
+    <div class="quick-card" onclick="showSection('daily')">
+      <div class="quick-card-icon">☀️</div>
+      <div class="quick-card-title">Daily Check-In</div>
+      <div class="quick-card-sub">5 minutes · today</div>
+    </div>
+    <div class="quick-card" onclick="showSection('urge')">
+      <div class="quick-card-icon">🚨</div>
+      <div class="quick-card-title">Urge Toolkit</div>
+      <div class="quick-card-sub">Go here if you need it</div>
+    </div>
+    <div class="quick-card" onclick="showSection('weekly')">
+      <div class="quick-card-icon">📅</div>
+      <div class="quick-card-title">Weekly Reflection</div>
+      <div class="quick-card-sub">10 minutes · once a week</div>
+    </div>
+    <div class="quick-card" onclick="showSection('coping')">
+      <div class="quick-card-icon">🌿</div>
+      <div class="quick-card-title">Coping Menu</div>
+      <div class="quick-card-sub">What actually helps</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-sage">⚙️</div>
+      <div>
+        <div class="card-title">Set your sobriety start date</div>
+        <div class="card-hint">Your day counter updates automatically</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Start date</label>
+      <input type="date" id="start-date" onchange="saveStartDate()">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DAILY CHECK-IN
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-daily">
+  <div class="page-header">
+    <div class="page-eyebrow">Every day</div>
+    <div class="page-title">Daily <span>Check-In</span></div>
+    <div class="page-sub">5 minutes. Show up. That's enough.</div>
+  </div>
+
+  <div class="info-box info-sage">
+    Each entry is saved automatically. Come back tomorrow and start fresh — your history is always here.
+  </div>
+
+  <!-- Morning Pledge -->
+  <div class="card card-accent-terra">
+    <div class="card-header">
+      <div class="card-icon icon-terra">☀️</div>
+      <div><div class="card-title">Morning pledge</div></div>
+    </div>
+    <div class="form-group">
+      <label>Today I choose sobriety because</label>
+      <textarea id="d-pledge" placeholder="Be specific. Even one honest sentence is enough." rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- Mood + Urge -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-gold">💫</div>
+      <div><div class="card-title">How are you right now?</div></div>
+    </div>
+    <label>Mood</label>
+    <div class="mood-row" style="margin-bottom:16px;">
+      <button class="mood-btn" data-mood="1" onclick="selectMood(1)">😔<span class="mood-label">Low</span></button>
+      <button class="mood-btn" data-mood="2" onclick="selectMood(2)">😐<span class="mood-label">Okay</span></button>
+      <button class="mood-btn" data-mood="3" onclick="selectMood(3)">🙂<span class="mood-label">Good</span></button>
+      <button class="mood-btn" data-mood="4" onclick="selectMood(4)">😊<span class="mood-label">Great</span></button>
+      <button class="mood-btn" data-mood="5" onclick="selectMood(5)">🌟<span class="mood-label">Thriving</span></button>
+    </div>
+    <label>Urge level (1 = none, 5 = strong)</label>
+    <div class="urge-row">
+      <button class="urge-btn" data-urge="1" onclick="selectUrge(1)">1</button>
+      <button class="urge-btn" data-urge="2" onclick="selectUrge(2)">2</button>
+      <button class="urge-btn" data-urge="3" onclick="selectUrge(3)">3</button>
+      <button class="urge-btn" data-urge="4" onclick="selectUrge(4)">4</button>
+      <button class="urge-btn" data-urge="5" onclick="selectUrge(5)">5</button>
+    </div>
+    <div class="urge-warn" id="urge-warn">
+      Urge level is high. <a onclick="showSection('urge')">Go to Urge Toolkit →</a>
+    </div>
+  </div>
+
+  <!-- Gratitude -->
+  <div class="card card-accent-gold">
+    <div class="card-header">
+      <div class="card-icon icon-gold">🙏</div>
+      <div><div class="card-title">3 things I'm grateful for</div><div class="card-hint">Even tiny things count</div></div>
+    </div>
+    <div class="gratitude-item"><div class="gratitude-num">1</div><input type="text" id="d-grat1" placeholder="..."></div>
+    <div class="gratitude-item"><div class="gratitude-num">2</div><input type="text" id="d-grat2" placeholder="..."></div>
+    <div class="gratitude-item"><div class="gratitude-num">3</div><input type="text" id="d-grat3" placeholder="..."></div>
+  </div>
+
+  <!-- Focus -->
+  <div class="card card-accent-sage">
+    <div class="card-header">
+      <div class="card-icon icon-sage">🎯</div>
+      <div><div class="card-title">My ONE focus today</div><div class="card-hint">Just one — protect your energy</div></div>
+    </div>
+    <textarea id="d-focus" placeholder="What matters most today?" rows="2"></textarea>
+  </div>
+
+  <!-- Body Check -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-sage">✅</div>
+      <div><div class="card-title">Body check</div></div>
+    </div>
+    <ul class="checklist" id="body-check">
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Drank water</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Ate something</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Slept enough</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Moved my body</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Reached out to someone</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Took medication (if needed)</span></li>
+    </ul>
+  </div>
+
+  <!-- Win + Hard -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-terra">🌊</div>
+      <div><div class="card-title">Today's moments</div></div>
+    </div>
+    <div class="form-group">
+      <label>Win of today (however small)</label>
+      <textarea id="d-win" placeholder="What went right?" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Hardest moment + what I did</label>
+      <textarea id="d-hard" placeholder="Be honest. This is for you." rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- Evening -->
+  <div class="card card-accent-terra">
+    <div class="card-header">
+      <div class="card-icon icon-terra">🌙</div>
+      <div><div class="card-title">Evening close</div></div>
+    </div>
+    <div class="form-group">
+      <label>Tomorrow I will</label>
+      <input type="text" id="d-tomorrow" placeholder="One small intention...">
+    </div>
+    <div class="form-group">
+      <label>Message to tomorrow's me</label>
+      <textarea id="d-msg" placeholder="What do you need to hear?" rows="2"></textarea>
+    </div>
+  </div>
+
+  <button class="btn btn-primary btn-full" onclick="saveDaily()" style="margin-bottom:24px;">
+    Save today's entry ✓
+  </button>
+
+  <!-- Past entries -->
+  <div id="past-entries"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     WEEKLY REFLECTION
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-weekly">
+  <div class="page-header">
+    <div class="page-eyebrow">Once a week</div>
+    <div class="page-title">Weekly <span>Reflection</span></div>
+    <div class="page-sub">10 minutes. Honest answers. Real growth.</div>
+  </div>
+
+  <div class="card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Week of</label>
+        <input type="date" id="w-date">
+      </div>
+      <div class="form-group">
+        <label>Days sober</label>
+        <input type="number" id="w-days" placeholder="e.g. 21" min="0">
+      </div>
+    </div>
+    <label>How do I feel about that? (1–5)</label>
+    <div class="urge-row" style="margin-bottom:0;">
+      <button class="urge-btn" data-wfeel="1" onclick="selectWeekFeel(1)">1</button>
+      <button class="urge-btn" data-wfeel="2" onclick="selectWeekFeel(2)">2</button>
+      <button class="urge-btn" data-wfeel="3" onclick="selectWeekFeel(3)">3</button>
+      <button class="urge-btn" data-wfeel="4" onclick="selectWeekFeel(4)">4</button>
+      <button class="urge-btn" data-wfeel="5" onclick="selectWeekFeel(5)">5</button>
+    </div>
+  </div>
+
+  <div class="card card-accent-sage">
+    <label>Biggest win this week</label>
+    <textarea id="w-win" placeholder="What are you most proud of?" rows="3"></textarea>
+  </div>
+  <div class="card card-accent-terra">
+    <label>Hardest moment + exactly how I handled it</label>
+    <textarea id="w-hard" placeholder="Be specific. What did you do?" rows="3"></textarea>
+  </div>
+  <div class="card card-accent-gold">
+    <label>What I want to do differently next week</label>
+    <textarea id="w-diff" placeholder="One small change..." rows="2"></textarea>
+  </div>
+  <div class="card card-accent-sage">
+    <label>Something I noticed about myself this week</label>
+    <textarea id="w-notice" placeholder="A pattern, a feeling, anything..." rows="2"></textarea>
+  </div>
+  <div class="card card-accent-terra">
+    <label>One thing sobriety is protecting that I want to keep</label>
+    <textarea id="w-protect" placeholder="What are you building?" rows="2"></textarea>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px;">Self-care this week</div>
+    <ul class="checklist" id="week-check">
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Moved my body</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Slept enough</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Ate well</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Connected with someone</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Did something I enjoy</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box"></div><span>Went to a meeting / called sponsor</span></li>
+    </ul>
+  </div>
+
+  <button class="btn btn-primary btn-full" onclick="saveWeekly()" style="margin-bottom:24px;">
+    Save this week's reflection ✓
+  </button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CALENDAR
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-calendar">
+  <div class="page-header">
+    <div class="page-eyebrow">Visual tracker</div>
+    <div class="page-title">Sobriety <span>Calendar</span></div>
+    <div class="page-sub">Tap a day to mark it sober. Watch it grow.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <button class="btn btn-ghost" style="padding:8px 14px;font-size:13px;" onclick="changeMonth(-1)">← Prev</button>
+      <div style="font-family:var(--font-display);font-size:20px;" id="cal-title">Month 1</div>
+      <button class="btn btn-ghost" style="padding:8px 14px;font-size:13px;" onclick="changeMonth(1)">Next →</button>
+    </div>
+    <div class="cal-header" id="cal-header"></div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div style="margin-top:12px;text-align:center;">
+      <span class="pill pill-sage" id="cal-count">0 sober days this month</span>
+    </div>
+  </div>
+
+  <div class="info-box info-sage">
+    Every shaded square is a day you chose yourself. The pattern you're building is real.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MILESTONES
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-milestones">
+  <div class="page-header">
+    <div class="page-eyebrow">Every day counts</div>
+    <div class="page-title">Milestone <span>Tracker</span></div>
+    <div class="page-sub">Tap each one the day you reach it.</div>
+  </div>
+
+  <div class="info-box info-gold">
+    The number grows whether you watch it or not. These are your proof points.
+  </div>
+
+  <div class="milestone-grid" id="milestone-grid"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     URGE TOOLKIT
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-urge">
+  <div class="crisis-banner">
+    <h2>🚨 Urge Toolkit</h2>
+    <p>Go here the moment a craving hits. Before anything else.</p>
+  </div>
+
+  <div class="info-box info-terra" style="text-align:center;font-size:14px;font-weight:500;">
+    Urges peak at 20–30 minutes. Every single time. Then they fade.<br>
+    Your only job is the next <strong>10 minutes.</strong>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num terra">1</div>
+    <div>
+      <div class="step-title">Stop</div>
+      <div class="step-desc">Put everything down. Don't scroll. Don't text. Just stop. 60 seconds.</div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num sage">2</div>
+    <div>
+      <div class="step-title">Name it out loud</div>
+      <div class="step-desc">"I am having a craving right now. That is all it is. It will pass."</div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num gold">3</div>
+    <div>
+      <div class="step-title">Locate it in your body</div>
+      <div class="step-desc">Where do you feel it? Chest? Stomach? Just notice. Don't fight.</div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num terra">4</div>
+    <div>
+      <div class="step-title">Breathe — 4-4-6</div>
+      <div class="step-desc">In for 4 counts. Hold 4. Out for 6. Tap the button below to guide you.</div>
+      <button class="breathe-btn" id="breathe-btn" onclick="startBreathe()">
+        Tap to breathe with me
+      </button>
+      <div id="breathe-text" style="text-align:center;font-size:13px;color:var(--sage);display:none;"></div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num sage">5</div>
+    <div>
+      <div class="step-title">One action from your Coping Menu</div>
+      <div class="step-desc">Not everything. Just one. <a style="color:var(--sage);cursor:pointer;text-decoration:underline;" onclick="showSection('coping')">Go to coping menu →</a></div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num terra">6</div>
+    <div>
+      <div class="step-title">Call someone right now</div>
+      <div class="step-desc">If the wave is too strong — call your person. Before anything else.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;background:var(--terra-pale);border-color:var(--terra-soft);">
+    <div class="card-title" style="margin-bottom:12px;color:var(--terra);">Log this urge</div>
+    <div class="form-group">
+      <label>What triggered it?</label>
+      <input type="text" id="u-trigger" placeholder="Time, place, emotion, situation...">
+    </div>
+    <div class="form-group">
+      <label>Intensity (1–10)</label>
+      <input type="number" id="u-intensity" min="1" max="10" placeholder="1–10">
+    </div>
+    <div class="form-group">
+      <label>What did I do?</label>
+      <textarea id="u-action" placeholder="Which step helped most?" rows="2"></textarea>
+    </div>
+    <button class="btn btn-terra btn-full" onclick="saveUrgeLog()">Log this urge</button>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="card-title" style="margin-bottom:10px;">Emergency contacts</div>
+    <div class="form-group">
+      <label>Sponsor / Accountability</label>
+      <input type="text" id="ec-1" placeholder="Name + number" onchange="saveEmergencyContacts()">
+    </div>
+    <div class="form-group">
+      <label>Close Friend</label>
+      <input type="text" id="ec-2" placeholder="Name + number" onchange="saveEmergencyContacts()">
+    </div>
+    <div class="info-box info-terra" style="margin-top:8px;">
+      <strong>988</strong> — SAMHSA Crisis & Suicide Lifeline. Call or text 988. Available 24/7.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     COPING MENU
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-coping">
+  <div class="page-header">
+    <div class="page-eyebrow">Your personal toolkit</div>
+    <div class="page-title">Coping <span>Menu</span></div>
+    <div class="page-sub">Fill on a good day. Use on a hard one.</div>
+  </div>
+
+  <div class="info-box info-sage">
+    On low days your brain can't figure out what will help — so you make this list <em>now</em>, when your brain is working.
+  </div>
+
+  <div class="coping-section">
+    <div class="coping-header">
+      <span class="coping-badge badge-terra">⚡ Under 5 min</span>
+      <span style="font-size:12px;color:var(--mid);">Quick hits when you can barely move</span>
+    </div>
+    <div id="coping-5" class="coping-inputs"></div>
+    <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="addCopingItem('coping-5','5min')">+ Add activity</button>
+  </div>
+
+  <div class="coping-section">
+    <div class="coping-header">
+      <span class="coping-badge badge-sage">🌿 5–15 min</span>
+      <span style="font-size:12px;color:var(--mid);">When you can do a little more</span>
+    </div>
+    <div id="coping-15" class="coping-inputs"></div>
+    <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="addCopingItem('coping-15','15min')">+ Add activity</button>
+  </div>
+
+  <div class="coping-section">
+    <div class="coping-header">
+      <span class="coping-badge badge-gold">🔥 30+ min</span>
+      <span style="font-size:12px;color:var(--mid);">Invest in yourself</span>
+    </div>
+    <div id="coping-30" class="coping-inputs"></div>
+    <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="addCopingItem('coping-30','30min')">+ Add activity</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PROMPTS
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-prompts">
+  <div class="page-header">
+    <div class="page-eyebrow">When you want to go deeper</div>
+    <div class="page-title">30-Day <span>Writing Prompts</span></div>
+    <div class="page-sub">One per day. Optional but powerful. Tap any prompt to write.</div>
+  </div>
+
+  <div class="prompt-section-title">Days 1–10 — Building the foundation</div>
+  <div id="prompts-1-10"></div>
+
+  <div class="prompt-section-title">Days 11–20 — Finding your rhythm</div>
+  <div id="prompts-11-20"></div>
+
+  <div class="prompt-section-title">Days 21–30 — Building momentum</div>
+  <div id="prompts-21-30"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AFFIRMATIONS
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-affirmations">
+  <div class="page-header">
+    <div class="page-eyebrow">Read when it's hard</div>
+    <div class="page-title">Recovery <span>Affirmations</span></div>
+    <div class="page-sub">Tap the heart to save your favourites.</div>
+  </div>
+  <div id="affirmations-list"></div>
+
+  <div class="divider"></div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px;">My own affirmations</div>
+    <div class="card-hint" style="margin-bottom:12px;">Write what you need to hear.</div>
+    <textarea id="my-affirmations" placeholder="Write your own here..." rows="4" onchange="saveField('my-affirmations')"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOUNDATION
+════════════════════════════════════════════════════════════ -->
+<div class="section" id="section-foundation">
+  <div class="page-header">
+    <div class="page-eyebrow">Fill once. Return often.</div>
+    <div class="page-title">My <span>Foundation</span></div>
+    <div class="page-sub">This is the page you come back to when you forget why.</div>
+  </div>
+
+  <div class="card card-accent-terra">
+    <div class="card-header">
+      <div class="card-icon icon-terra">❤️</div>
+      <div><div class="card-title">My WHY</div><div class="card-hint">Be specific. This is your truth.</div></div>
+    </div>
+    <textarea id="f-why" placeholder="The real reason I chose this..." rows="4" onchange="saveField('f-why')"></textarea>
+  </div>
+
+  <div class="card card-accent-sage">
+    <div class="card-header">
+      <div class="card-icon icon-sage">👥</div>
+      <div><div class="card-title">People in my corner</div></div>
+    </div>
+    <div class="form-group">
+      <label>Person 1 — name + how they help</label>
+      <input type="text" id="f-person1" placeholder="..." onchange="saveField('f-person1')">
+    </div>
+    <div class="form-group">
+      <label>Person 2</label>
+      <input type="text" id="f-person2" placeholder="..." onchange="saveField('f-person2')">
+    </div>
+    <div class="form-group">
+      <label>Person 3</label>
+      <input type="text" id="f-person3" placeholder="..." onchange="saveField('f-person3')">
+    </div>
+  </div>
+
+  <div class="card card-accent-terra">
+    <div class="card-header">
+      <div class="card-icon icon-terra">⚡</div>
+      <div><div class="card-title">My known triggers</div><div class="card-hint">Knowing them is power over them</div></div>
+    </div>
+    <textarea id="f-triggers" placeholder="Write one per line..." rows="4" onchange="saveField('f-triggers')"></textarea>
+  </div>
+
+  <div class="card card-accent-gold">
+    <div class="card-header">
+      <div class="card-icon icon-gold">✨</div>
+      <div><div class="card-title">What I've already gained</div><div class="card-hint">Even the smallest things</div></div>
+    </div>
+    <textarea id="f-gained" placeholder="..." rows="3" onchange="saveField('f-gained')"></textarea>
+  </div>
+
+  <div class="card card-accent-sage">
+    <div class="card-header">
+      <div class="card-icon icon-sage">💌</div>
+      <div><div class="card-title">Letter to future me</div><div class="card-hint">What do you need to hear on day 90?</div></div>
+    </div>
+    <textarea id="f-letter" placeholder="Dear future me..." rows="5" onchange="saveField('f-letter')"></textarea>
+  </div>
+
+  <div class="info-box info-sage" style="text-align:center;font-style:italic;font-family:var(--font-display);font-size:15px;">
+    "I am not doing this perfectly. I am doing this. That is enough."
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- SAVE BAR -->
+<div class="save-bar" id="save-bar">✓ Saved</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// STATE & STORAGE
+// ═══════════════════════════════════════════════════════════
+const DATA_KEY = 'sober_thriving_v1';
+
+function getData() {
+  try {
+    return JSON.parse(localStorage.getItem(DATA_KEY)) || {};
+  } catch(e) { return {}; }
+}
+
+function setData(data) {
+  localStorage.setItem(DATA_KEY, JSON.stringify(data));
+  showSavebar();
+}
+
+function showSavebar() {
+  const bar = document.getElementById('save-bar');
+  bar.classList.add('show');
+  setTimeout(() => bar.classList.remove('show'), 1800);
+}
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.getAttribute('onclick').includes("'" + id + "'")) t.classList.add('active');
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ═══════════════════════════════════════════════════════════
+// DAY COUNTER
+// ═══════════════════════════════════════════════════════════
+function saveStartDate() {
+  const val = document.getElementById('start-date').value;
+  const d = getData(); d.startDate = val; setData(d);
+  updateDayCounter();
+}
+
+function updateDayCounter() {
+  const d = getData();
+  const el = document.getElementById('day-count');
+  if (d.startDate) {
+    const start = new Date(d.startDate);
+    const now = new Date();
+    const days = Math.floor((now - start) / (1000*60*60*24)) + 1;
+    el.textContent = `Day ${Math.max(1, days)}`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MOOD & URGE
+// ═══════════════════════════════════════════════════════════
+let currentMood = null;
+let currentUrge = null;
+
+function selectMood(n) {
+  currentMood = n;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.mood-btn[data-mood="${n}"]`).classList.add('selected');
+}
+
+function selectUrge(n) {
+  currentUrge = n;
+  document.querySelectorAll('.urge-btn[data-urge]').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.urge-btn[data-urge="${n}"]`).classList.add('selected');
+  const warn = document.getElementById('urge-warn');
+  warn.classList.toggle('show', n >= 4);
+}
+
+let currentWeekFeel = null;
+function selectWeekFeel(n) {
+  currentWeekFeel = n;
+  document.querySelectorAll('.urge-btn[data-wfeel]').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.urge-btn[data-wfeel="${n}"]`).classList.add('selected');
+}
+
+// ═══════════════════════════════════════════════════════════
+// CHECKLIST
+// ═══════════════════════════════════════════════════════════
+function toggleCheck(li) {
+  li.classList.toggle('checked');
+  const box = li.querySelector('.check-box');
+  box.textContent = li.classList.contains('checked') ? '✓' : '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// SAVE DAILY
+// ═══════════════════════════════════════════════════════════
+function saveDaily() {
+  const today = new Date().toISOString().split('T')[0];
+  const d = getData();
+  if (!d.dailyEntries) d.dailyEntries = {};
+
+  const bodyItems = [];
+  document.querySelectorAll('#body-check li').forEach(li => {
+    if (li.classList.contains('checked')) bodyItems.push(li.querySelector('span').textContent);
+  });
+
+  d.dailyEntries[today] = {
+    date: today,
+    pledge: document.getElementById('d-pledge').value,
+    mood: currentMood,
+    urge: currentUrge,
+    grat1: document.getElementById('d-grat1').value,
+    grat2: document.getElementById('d-grat2').value,
+    grat3: document.getElementById('d-grat3').value,
+    focus: document.getElementById('d-focus').value,
+    body: bodyItems,
+    win: document.getElementById('d-win').value,
+    hard: document.getElementById('d-hard').value,
+    tomorrow: document.getElementById('d-tomorrow').value,
+    msg: document.getElementById('d-msg').value,
+  };
+
+  setData(d);
+  renderPastEntries();
+}
+
+function renderPastEntries() {
+  const d = getData();
+  const container = document.getElementById('past-entries');
+  if (!d.dailyEntries || Object.keys(d.dailyEntries).length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+  const entries = Object.values(d.dailyEntries).sort((a,b) => b.date.localeCompare(a.date));
+  const moods = ['','😔','😐','🙂','😊','🌟'];
+  let html = `<div style="font-weight:500;font-size:14px;margin-bottom:10px;color:var(--dark);">Past entries</div>`;
+  entries.forEach(e => {
+    const dateStr = new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', {weekday:'short',month:'short',day:'numeric'});
+    html += `<div class="entry-item">
+      <div class="entry-mood">${moods[e.mood] || '📝'}</div>
+      <div style="flex:1">
+        <div class="entry-date">${dateStr}</div>
+        <div class="entry-preview">${e.win || e.pledge || 'Entry saved'}</div>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SAVE WEEKLY
+// ═══════════════════════════════════════════════════════════
+function saveWeekly() {
+  const date = document.getElementById('w-date').value || new Date().toISOString().split('T')[0];
+  const d = getData();
+  if (!d.weeklyEntries) d.weeklyEntries = {};
+  d.weeklyEntries[date] = {
+    date, days: document.getElementById('w-days').value,
+    feel: currentWeekFeel,
+    win: document.getElementById('w-win').value,
+    hard: document.getElementById('w-hard').value,
+    diff: document.getElementById('w-diff').value,
+    notice: document.getElementById('w-notice').value,
+    protect: document.getElementById('w-protect').value,
+  };
+  setData(d);
+}
+
+// ═══════════════════════════════════════════════════════════
+// GENERIC FIELD SAVE
+// ═══════════════════════════════════════════════════════════
+function saveField(id) {
+  const d = getData();
+  d[id] = document.getElementById(id).value;
+  setData(d);
+}
+
+// ═══════════════════════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════════════════════
+let calMonth = 0;
+
+function changeMonth(dir) {
+  calMonth = Math.max(0, calMonth + dir);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const d = getData();
+  const startDate = d.startDate ? new Date(d.startDate) : new Date();
+  const base = new Date(startDate.getFullYear(), startDate.getMonth() + calMonth, 1);
+  const year = base.getFullYear();
+  const month = base.getMonth();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7; // Mon=0
+
+  document.getElementById('cal-title').textContent = base.toLocaleDateString('en-US', {month:'long',year:'numeric'});
+
+  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  document.getElementById('cal-header').innerHTML = dayNames.map(d2 =>
+    `<div class="cal-day-name">${d2}</div>`).join('');
+
+  if (!d.soberDays) d.soberDays = {};
+
+  let cells = '';
+  for (let i = 0; i < firstDay; i++) cells += `<div class="cal-day empty"></div>`;
+  let soberCount = 0;
+  for (let day = 1; day <= daysInMonth; day++) {
+    const key = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const isSober = d.soberDays[key];
+    if (isSober) soberCount++;
+    cells += `<div class="cal-day${isSober?' sober':''}" onclick="toggleCalDay('${key}')">${day}</div>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = cells;
+  document.getElementById('cal-count').textContent = `${soberCount} sober day${soberCount!==1?'s':''} this month`;
+}
+
+function toggleCalDay(key) {
+  const d = getData();
+  if (!d.soberDays) d.soberDays = {};
+  d.soberDays[key] = !d.soberDays[key];
+  if (!d.soberDays[key]) delete d.soberDays[key];
+  setData(d);
+  renderCalendar();
+}
+
+// ═══════════════════════════════════════════════════════════
+// MILESTONES
+// ═══════════════════════════════════════════════════════════
+const MILESTONES = [
+  {days:1,   label:'1 Day',    msg:'The hardest first step.'},
+  {days:3,   label:'3 Days',   msg:'Body already healing.'},
+  {days:7,   label:'1 Week',   msg:'7 days of choosing you.'},
+  {days:14,  label:'2 Weeks',  msg:'Real momentum.'},
+  {days:21,  label:'21 Days',  msg:'Habit threshold.'},
+  {days:30,  label:'30 Days',  msg:'A whole month.'},
+  {days:45,  label:'45 Days',  msg:'Not who you were.'},
+  {days:60,  label:'60 Days',  msg:'Brain rebuilding.'},
+  {days:90,  label:'90 Days',  msg:'First mountain. You made it.'},
+  {days:180, label:'6 Months', msg:'Half a year.'},
+  {days:365, label:'1 Year',   msg:'365 days rebuilt.'},
+  {days:730, label:'2 Years',  msg:'Your story saves others.'},
+];
+
+function renderMilestones() {
+  const d = getData();
+  if (!d.milestones) d.milestones = {};
+  let html = '';
+  MILESTONES.forEach((m, i) => {
+    const reached = d.milestones[i];
+    html += `<div class="milestone-item${reached?' reached':''}" onclick="toggleMilestone(${i})">
+      <div class="milestone-check">${reached?'✓':''}</div>
+      <div class="milestone-label">${m.label}</div>
+      <div class="milestone-msg">${m.msg}</div>
+    </div>`;
+  });
+  document.getElementById('milestone-grid').innerHTML = html;
+}
+
+function toggleMilestone(i) {
+  const d = getData();
+  if (!d.milestones) d.milestones = {};
+  d.milestones[i] = !d.milestones[i];
+  setData(d);
+  renderMilestones();
+}
+
+// ═══════════════════════════════════════════════════════════
+// BREATHE ANIMATION
+// ═══════════════════════════════════════════════════════════
+let breatheInterval = null;
+function startBreathe() {
+  const btn = document.getElementById('breathe-btn');
+  const txt = document.getElementById('breathe-text');
+  if (breatheInterval) {
+    clearInterval(breatheInterval);
+    breatheInterval = null;
+    btn.classList.remove('breathe-active');
+    btn.textContent = 'Tap to breathe with me';
+    txt.style.display = 'none';
+    return;
+  }
+  btn.classList.add('breathe-active');
+  txt.style.display = 'block';
+  const phases = [
+    {text:'Breathe in... 1, 2, 3, 4', dur:4000},
+    {text:'Hold... 1, 2, 3, 4',        dur:4000},
+    {text:'Breathe out... 1, 2, 3, 4, 5, 6', dur:6000},
+    {text:'',                           dur:1000},
+  ];
+  let rep = 0; let pi = 0;
+  function runPhase() {
+    if (rep >= 4) {
+      clearInterval(breatheInterval);
+      breatheInterval = null;
+      btn.classList.remove('breathe-active');
+      btn.textContent = 'Well done ✓';
+      txt.textContent = 'That was 4 full cycles. Your nervous system responded.';
+      return;
+    }
+    txt.textContent = phases[pi].text;
+    breatheInterval = setTimeout(() => {
+      pi = (pi+1) % phases.length;
+      if (pi === 0) rep++;
+      runPhase();
+    }, phases[pi].dur);
+  }
+  runPhase();
+}
+
+// ═══════════════════════════════════════════════════════════
+// URGE LOG
+// ═══════════════════════════════════════════════════════════
+function saveUrgeLog() {
+  const d = getData();
+  if (!d.urgeLogs) d.urgeLogs = [];
+  d.urgeLogs.push({
+    date: new Date().toISOString(),
+    trigger: document.getElementById('u-trigger').value,
+    intensity: document.getElementById('u-intensity').value,
+    action: document.getElementById('u-action').value,
+  });
+  document.getElementById('u-trigger').value = '';
+  document.getElementById('u-intensity').value = '';
+  document.getElementById('u-action').value = '';
+  setData(d);
+}
+
+function saveEmergencyContacts() {
+  const d = getData();
+  d['ec-1'] = document.getElementById('ec-1').value;
+  d['ec-2'] = document.getElementById('ec-2').value;
+  setData(d);
+}
+
+// ═══════════════════════════════════════════════════════════
+// COPING MENU
+// ═══════════════════════════════════════════════════════════
+function addCopingItem(containerId, category) {
+  const container = document.getElementById(containerId);
+  const d = getData();
+  if (!d.copingItems) d.copingItems = {};
+  if (!d.copingItems[category]) d.copingItems[category] = [];
+  const idx = d.copingItems[category].length;
+  d.copingItems[category].push('');
+  setData(d);
+  renderCopingInputs(container, category, d.copingItems[category]);
+}
+
+function renderCopingInputs(container, category, items) {
+  container.innerHTML = items.map((val, i) =>
+    `<div style="display:flex;gap:8px;margin-bottom:8px;">
+      <input type="text" value="${val}" placeholder="e.g. cold water on face" 
+             oninput="saveCopingItem('${category}',${i},this.value)"
+             style="flex:1;">
+      <button onclick="removeCopingItem('${category}',${i})" 
+              style="background:none;border:1px solid var(--line);border-radius:8px;padding:0 10px;cursor:pointer;color:var(--mid);">✕</button>
+    </div>`
+  ).join('');
+}
+
+function saveCopingItem(category, idx, val) {
+  const d = getData();
+  if (!d.copingItems) d.copingItems = {};
+  if (!d.copingItems[category]) d.copingItems[category] = [];
+  d.copingItems[category][idx] = val;
+  setData(d);
+}
+
+function removeCopingItem(category, idx) {
+  const d = getData();
+  d.copingItems[category].splice(idx, 1);
+  setData(d);
+  loadCopingMenu();
+}
+
+function loadCopingMenu() {
+  const d = getData();
+  const cats = {'5min':'coping-5','15min':'coping-15','30min':'coping-30'};
+  Object.entries(cats).forEach(([cat, cid]) => {
+    const container = document.getElementById(cid);
+    const items = (d.copingItems && d.copingItems[cat]) || [];
+    renderCopingInputs(container, cat, items);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROMPTS
+// ═══════════════════════════════════════════════════════════
+const PROMPTS = [
+  "What does sobriety feel like right now — not what it should, but what it actually feels like today?",
+  "Write about the moment you decided this was the time. What shifted inside you?",
+  "Three things you have already gained. Even the smallest things count.",
+  "Who supports your recovery? Who makes it harder? Be completely honest.",
+  "What does a craving feel like in your body? Describe it like weather.",
+  "Write about the version of yourself you're trying to become.",
+  "What habit do you most want to build in the next 30 days?",
+  "What would you tell someone starting day 1 right now?",
+  "Write about one relationship that sobriety is already changing.",
+  "What emotion is hardest to feel sober? What do you do with it now?",
+  "What patterns have you noticed in your urges so far?",
+  "Write about the difference between being sober and being in recovery.",
+  "Describe a moment this week where you surprised yourself.",
+  "What are you learning about yourself that you didn't know before?",
+  "Write about boredom. For many in recovery, it's one of the most dangerous feelings.",
+  "What does self-compassion feel like for you? Do you practice it?",
+  "Write about a moment of real joy you experienced sober.",
+  "What triggers have you identified that you didn't know about before?",
+  "Who are you outside of your recovery story? What else is true about you?",
+  "What would the person you're becoming say to the person you were?",
+  "What has changed in you over these 21 days? Even quietly.",
+  "Write about what your life looks like one year from now if you stay sober.",
+  "What does your sobriety protect? Write about what you're building.",
+  "Write about a relationship you want to heal. What's one small step?",
+  "What wisdom would you give yourself at the start of this 30 days?",
+  "What parts of your old self do you want to reclaim?",
+  "Write about the last time you felt genuinely proud of yourself.",
+  "What does recovery look like for you in practice — your actual daily choices?",
+  "Write about a moment where you realized how far you have already come.",
+  "What do you want your life to look like at day 90? Describe it in detail.",
+];
+
+function renderPrompts() {
+  const d = getData();
+  if (!d.promptEntries) d.promptEntries = {};
+
+  const groups = [
+    {id:'prompts-1-10',   range:[0,9]},
+    {id:'prompts-11-20',  range:[10,19]},
+    {id:'prompts-21-30',  range:[20,29]},
+  ];
+
+  groups.forEach(({id, range}) => {
+    let html = '';
+    for (let i = range[0]; i <= range[1]; i++) {
+      const saved = d.promptEntries[i] || '';
+      html += `<div class="prompt-card${saved?' open':''}" onclick="togglePrompt(this,${i})">
+        <div class="prompt-num">Day ${i+1}</div>
+        <div class="prompt-text">${PROMPTS[i]}</div>
+        <div class="prompt-expanded" onclick="event.stopPropagation()">
+          <textarea rows="4" placeholder="Write here..." oninput="savePrompt(${i},this.value)" 
+                    style="width:100%;margin-top:4px;">${saved}</textarea>
+        </div>
+      </div>`;
+    }
+    document.getElementById(id).innerHTML = html;
+  });
+}
+
+function togglePrompt(card, i) {
+  const expanded = card.querySelector('.prompt-expanded');
+  const isOpen = card.classList.toggle('open');
+  if (isOpen) setTimeout(() => card.querySelector('textarea').focus(), 100);
+}
+
+function savePrompt(i, val) {
+  const d = getData();
+  if (!d.promptEntries) d.promptEntries = {};
+  d.promptEntries[i] = val;
+  setData(d);
+}
+
+// ═══════════════════════════════════════════════════════════
+// AFFIRMATIONS
+// ═══════════════════════════════════════════════════════════
+const AFFIRMATIONS = [
+  "I chose sobriety today. I will choose it again tomorrow.",
+  "Cravings are temporary. My commitment is not.",
+  "I am not who I was. I am choosing who I become.",
+  "Every sober day is proof of what I am capable of.",
+  "The urge will pass. It always does. Every time.",
+  "I reach out instead of reaching for something else.",
+  "My sobriety is the most important thing I protect.",
+  "I deserve the life that sobriety is building for me.",
+  "Recovery is not linear. Showing up anyway is the whole skill.",
+  "I am enough. I have always been enough.",
+  "What I'm building is worth more than what I'm leaving behind.",
+  "One day at a time. Even on the days that's all I can manage.",
+];
+
+function renderAffirmations() {
+  const d = getData();
+  if (!d.favAffirmations) d.favAffirmations = {};
+  let html = '';
+  AFFIRMATIONS.forEach((text, i) => {
+    const fav = d.favAffirmations[i];
+    html += `<div class="affirmation-card${fav?' favourited':''}">
+      <button class="heart-btn" onclick="toggleFav(event,${i})">${fav?'❤️':'🤍'}</button>
+      <div class="affirmation-text">"${text}"</div>
+    </div>`;
+  });
+  document.getElementById('affirmations-list').innerHTML = html;
+}
+
+function toggleFav(e, i) {
+  e.stopPropagation();
+  const d = getData();
+  if (!d.favAffirmations) d.favAffirmations = {};
+  d.favAffirmations[i] = !d.favAffirmations[i];
+  setData(d);
+  renderAffirmations();
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOAD SAVED DATA
+// ═══════════════════════════════════════════════════════════
+function loadAll() {
+  const d = getData();
+  const fields = ['d-pledge','d-grat1','d-grat2','d-grat3','d-focus','d-win','d-hard','d-tomorrow','d-msg',
+                  'f-why','f-person1','f-person2','f-person3','f-triggers','f-gained','f-letter',
+                  'my-affirmations','ec-1','ec-2','w-win','w-hard','w-diff','w-notice','w-protect'];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && d[id]) el.value = d[id];
+  });
+  if (d.startDate) {
+    document.getElementById('start-date').value = d.startDate;
+  }
+  updateDayCounter();
+  renderCalendar();
+  renderMilestones();
+  renderAffirmations();
+  renderPrompts();
+  renderPastEntries();
+  loadCopingMenu();
+}
+
+// ═══════════════════════════════════════════════════════════
+// DAILY QUOTES
+// ═══════════════════════════════════════════════════════════
+const QUOTES = [
+  '"You are not starting over. You are starting from exactly where you are."',
+  '"The urge will pass. It always does. Every single time."',
+  '"Recovery is not a destination. It is a daily practice of choosing yourself."',
+  '"One day at a time. Even on the days that\'s all you can manage."',
+  '"You are not who you were. You are choosing who you become."',
+  '"Every sober day is proof of what you are capable of."',
+  '"Showing up is the whole skill. You are already doing it."',
+];
+
+function setDailyQuote() {
+  const day = Math.floor(Date.now() / 86400000) % QUOTES.length;
+  document.getElementById('daily-quote').textContent = QUOTES[day];
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+window.onload = function() {
+  loadAll();
+  setDailyQuote();
+};
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"5070e21320304a1ba2b0a42ce9682840","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
